@@ -15,5 +15,5 @@ make test
 sudo make altinstall
 
 # Verify Python installation
-python3.14 version
+python3.14 --version
 which python3.14
