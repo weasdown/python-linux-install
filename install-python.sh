@@ -17,6 +17,3 @@ sudo make altinstall
 # Verify Python installation
 python3.14 version
 which python3.14
-
-# Always return to the Downloads folder.
-cd ..
