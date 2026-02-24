@@ -4,16 +4,12 @@ Scripts to simplify installing Python on Linux. Thanks to [eykamp] for their rea
 
 ## Setting up the scripts
 
-First, clone this repository:
-
-`git clone https://github.com/weasdown/python-linux-install.git`
-
-Enter the repository's folder then make the scripts executable:
+Clone this repository then enter its folder:
 
 ```bash
+git clone https://github.com/weasdown/python-linux-install.git
+
 cd python-linux-install
-chmod +x ./install-openssl.sh
-chmod +x ./install-python.sh
 ```
 
 ## Installing openssl
