@@ -23,7 +23,7 @@ For Python to install properly, you must have a fully working version of the `op
 **To install `openssl`, run:**
 
 ```bash
-sudo ./install-openssl.sh
+./install-openssl.sh
 ```
 
 At the time of writing, OpenSSL version 3.6.1 is installed by the script, with no way to choose another version. Selecting a version will be implemented later.
@@ -35,7 +35,7 @@ Once openssl has been correctly installed, we can move on to installing our chos
 **To install Python, run:**
 
 ```bash
-sudo ./install-python.sh
+./install-python.sh
 ```
 
 At the time of writing, Python version 3.14.3 is installed by the script, with no way to choose another version. Selecting a version will be implemented later.
