@@ -4,7 +4,7 @@
 cd ~/Downloads
 
 # Download and extract openssl 3.6.1.
-wget https://www.openssl.org/source/openssl-3.6.1.tar.gz
+wget -q --show-progress https://www.openssl.org/source/openssl-3.6.1.tar.gz
 tar -zxf openssl-3.6.1.tar.gz
 
 # Compile openssl.

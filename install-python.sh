@@ -4,7 +4,7 @@
 cd ~/Downloads
 
 # Download and extract Python 3.14.3.
-wget https://www.python.org/ftp/python/3.14.3/Python-3.14.3.tar.xz
+wget -q --show-progress https://www.python.org/ftp/python/3.14.3/Python-3.14.3.tar.xz
 tar -xf Python-3.14.3.tar.xz
 
 # Compile Python
