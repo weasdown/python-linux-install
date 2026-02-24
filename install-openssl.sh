@@ -26,7 +26,7 @@ rm $filename  # Remove downloaded archive.
 
 # Setup variables for log files.
 logs_dir="openssl-logs"
-mkdir $logs_dir
+mkdir -p $logs_dir  # -p argument ignores an existing directory.
 configure_log="$downloads/$logs_dir/openssl-$version-configure.log"
 make_log="$downloads/$logs_dir/openssl-$version-make.log"
 make_install_log="$downloads/$logs_dir/openssl-$version-make-install.log"
