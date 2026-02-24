@@ -1,20 +1,17 @@
 #!/bin/bash
+# Script for installing the openssl library.
 
-# Prints a "- Complete" message indented by one tab stop.
-complete () {
-    printf "\t- Complete\n"
-}
-
-version="3.6.1"
+version="3.6.1"  # TODO make openssl library version an agrument.
 library="openssl-$version"
 
 # Always download to the Downloads folder.
 user="$(whoami)"
-cd /home/$user/Downloads
+downloads="/home/$user/Downloads"
+cd $downloads
 printf "Switched to %s\n\n" "$(pwd)"
 
 # Remove any existing copies of this version of the library to ensure we start from fresh.
-printf "\nRemoving any existing copies of %s...\n\n" $library
+printf "Removing any existing copies of %s...\n\n" $library
 rm -rf $library*
 
 # Download and extract openssl 3.6.1.
@@ -24,45 +21,80 @@ printf "Downloading %s from %s...\n" $library $url
 wget -q --show-progress $url
 
 printf "Extracting %s...\n" $filename
-tar -zxf $filename
+tar -zxf $filename  # Extract downloaded archive.
+rm $filename  # Remove downloaded archive.
 
 # Setup variables for log files.
-configure_log="/home/$user/Downloads/openssl-configure.log"
-make_log="/home/$user/Downloads/openssl-make.log"
-make_install_log="/home/$user/Downloads/openssl-make-install.log"
+logs_dir="openssl-logs"
+mkdir $logs_dir
+configure_log="$downloads/$logs_dir/openssl-$version-configure.log"
+make_log="$downloads/$logs_dir/openssl-$version-make.log"
+make_install_log="$downloads/$logs_dir/openssl-$version-make-install.log"
 
-# Compile openssl.
+# Remove old log files.
+printf "\nRemoving old logs\n"
+rm -f $configure_log
+rm -f $make_log
+rm -f $make_install_log
+
+## Compile openssl.
+# Configure openssl.
 cd openssl-3.6.1
 printf "\nSwitched to %s\n" "$(pwd)"
 printf "Configuring %s...\n" $library
 
 ./config &> $configure_log
-code=$(echo $?)
-if [[ $code -eq 0 ]]; then  # echo $? gives the return code of the most recent command - 0 for success.
-    printf "\t- Success!"
+configure_code=$(echo $?)    # echo $? gives the return code of the most recent command - 0 for success.
+if [[ $configure_code -eq 0 ]]; then
+    printf "\t- Success!\n"
 else
-    printf "\nConfigure failed with code %d!\n" $code
+    printf "\n\t- Configure failed with code %d!\n" $configure_code
     exit
 fi
 
-# printf "\nMaking %s...\n" $library
-# make &> $make_install_log
+# Make openssl.
+printf "\nMaking %s... This will take a while.\n" $library
+make &> $make_log
 
-# # TODO work out how to run sudo commands
-# sudo make install &> $make_install_log
+make_code=$(echo $?)
+if [[ $make_code -eq 0 ]]; then
+    printf "\t- Success!\n"
+else
+    printf "\n\t- Make failed with code %d!\n" $make_code
+    exit
+fi
 
-# # Copy libraries for openssl to /usr/lib.
-# sudo cp -r libssl.so.3 /usr/lib
-# sudo cp -r libcrypto.so.3 /usr/lib
+# Make install openssl.
+printf "\nMake installing %s... This will take a while.\n" $library
+sudo make install &> $make_install_log
 
-# # Update library links.
-# sudo ldconfig /usr/lib
+make_install_code=$(echo $?)
+if [[ $make_install_code -eq 0 ]]; then
+    printf "\t- Success!\n"
+else
+    printf "\n\t- Make install failed with code %d!\n" $make_install_code
+    exit
+fi
 
-# # Verify openssl installation
-# openssl version
-# which openssl
+# Copy libraries for openssl to /usr/lib.
+system_library_path="/usr/lib"
+sudo cp -r libssl.so.3 $system_library_path
+sudo cp -r libcrypto.so.3 $system_library_path
+printf "\nLibraries copied to %s\n" $system_library_path
 
-# Always return to the Downloads folder.
-cd ~/Downloads
+# Update library links.
+library_update_command="sudo ldconfig $system_library_path"
+$(library_update_command)
+library_update_code=$(echo $?)
+if [[ $library_update_code -eq 0 ]]; then
+    printf "\t- Success!\n"
+else
+    printf "\n\t- \"$library_update_command\" failed with code %d!\n" $library_update_code
+    exit
+fi
 
-printf "\nDone!\n"
+# Verify openssl installation
+printf "\nNew openssl version:\n%s\n" "$(openssl version)"
+printf "\nopenssl installed in: %s\n" "$(which openssl)"
+
+printf "\n\nDone!\n"
