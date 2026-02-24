@@ -84,7 +84,7 @@ printf "\nLibraries copied to %s\n" $system_library_path
 
 # Update library links.
 library_update_command="sudo ldconfig $system_library_path"
-$(library_update_command)
+$($library_update_command)
 library_update_code=$(echo $?)
 if [[ $library_update_code -eq 0 ]]; then
     printf "\t- Success!\n"
@@ -97,4 +97,4 @@ fi
 printf "\nNew openssl version:\n%s\n" "$(openssl version)"
 printf "\nopenssl installed in: %s\n" "$(which openssl)"
 
-printf "\n\nDone!\n"
+printf "\nDone!\n\n"
