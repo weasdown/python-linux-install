@@ -53,9 +53,11 @@ else
     exit
 fi
 
+num_cores=$(nproc --all)  # Get number of available CPU cores.
+
 # Make openssl.
 printf "\nMaking %s... This will take a while.\n" $library
-make &> $make_log
+make -j$num_cores &> $make_log
 
 make_code=$(echo $?)
 if [[ $make_code -eq 0 ]]; then
@@ -67,7 +69,7 @@ fi
 
 # Make install openssl.
 printf "\nMake installing %s... This will take a while.\n" $library
-sudo make install &> $make_install_log
+sudo make install -j$num_cores &> $make_install_log
 
 make_install_code=$(echo $?)
 if [[ $make_install_code -eq 0 ]]; then
