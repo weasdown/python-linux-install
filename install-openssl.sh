@@ -18,7 +18,8 @@ rm -rf $library*
 filename="$library.tar.gz"
 url="https://www.openssl.org/source/$filename"
 printf "Downloading %s from %s...\n" $library $url
-wget -q --show-progress $url
+# Download openssl archive. --no-check-certificate argument is required because we assume we do not have a working install of openssl.
+wget -q --show-progress --no-check-certificate $url
 
 printf "Extracting %s...\n" $filename
 tar -zxf $filename  # Extract downloaded archive.
