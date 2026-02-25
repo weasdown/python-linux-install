@@ -81,8 +81,8 @@ fi
 
 # Copy libraries for openssl to /usr/lib.
 system_library_path="/usr/lib"
-sudo cp -r libssl.so.3 $system_library_path
-sudo cp -r libcrypto.so.3 $system_library_path
+sudo cp libssl.so.3 $system_library_path #-r libssl.so.3 $system_library_path  # FIXME remove -r version - ?breaks sudo
+sudo cp libcrypto.so.3 $system_library_path #-r libcrypto.so.3 $system_library_path  # FIXME remove -r version - ?breaks sudo
 printf "\nLibraries copied to %s\n" $system_library_path
 
 # Update library links.
