@@ -10,9 +10,12 @@ tar -xf Python-3.14.3.tar.xz
 # Compile Python
 cd Python-3.14.3
 ./configure --enable-optimizations --with-openssl=/usr/local --with-ensurepip=install CFLAGS="-I/usr/include" LDFLAGS="-L/usr/lib"
-make
-make test
-sudo make altinstall
+
+num_cores=$(nproc --all)  # Get number of available CPU cores.
+
+make -j$num_cores
+make test -j$num_cores
+sudo make altinstall -j$num_cores
 
 # Verify Python installation
 python3.14 --version
