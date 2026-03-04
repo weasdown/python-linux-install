@@ -18,5 +18,5 @@ make test -j$num_cores
 sudo make altinstall -j$num_cores
 
 # Verify Python installation
-printf "\nNew Python 3.14 version:\n%s\n" "$(python3.14 --version)"
+printf "\nNew Python 3.14 version: %s\n" "$(python3.14 --version)"
 printf "\nPython 3.14 installed in: %s\n" "$(which python3.14)"
