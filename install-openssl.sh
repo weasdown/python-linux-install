@@ -96,6 +96,9 @@ else
     exit
 fi
 
+# Update certificates to fix wget.
+sudo ln -s  /etc/ssl/certs/ca-certificates.crt /usr/local/ssl/cert.pem
+
 # Verify openssl installation
 printf "\nNew openssl version:\n%s\n" "$(openssl version)"
 printf "\nopenssl installed in: %s\n" "$(which openssl)"
